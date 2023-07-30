@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
+//    $collection = collect([1, 2, 3]);
+//    dd($collection->where('0' , '>', '0')->all());
+
     return view('welcome');
 });
 

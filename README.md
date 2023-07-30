@@ -65,3 +65,4 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 # laravel-10
+# Very basic chat application using Laravel 10 broadcast, Pusher, and JavaScript.
