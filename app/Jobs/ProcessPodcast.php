@@ -9,7 +9,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Redis;
-use App\Jobs\Middleware\RateLimited;
+//use App\Jobs\Middleware\RateLimited;
+use Illuminate\Queue\Middleware\RateLimited;
+
 
 
 class ProcessPodcast implements ShouldQueue
@@ -42,6 +44,8 @@ class ProcessPodcast implements ShouldQueue
 
     public function middleware(): array
     {
-        return [new RateLimited];
+//        return [new RateLimited];
+//        return [new RateLimited('backups')];
+        return [(new RateLimited('backups'))->dontRelease()];
     }
 }
