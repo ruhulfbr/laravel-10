@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Redis;
 //use App\Jobs\Middleware\RateLimited;
 use Illuminate\Queue\Middleware\RateLimited;
+use Illuminate\Queue\Middleware\WithoutOverlapping;
 
 
 
@@ -46,6 +47,10 @@ class ProcessPodcast implements ShouldQueue
     {
 //        return [new RateLimited];
 //        return [new RateLimited('backups')];
-        return [(new RateLimited('backups'))->dontRelease()];
+//        return [(new RateLimited('backups'))->dontRelease()];
+//        return [(new WithoutOverlapping($this->user->id))];
+//        return [(new WithoutOverlapping($this->order->id))->dontRelease()];
+//        return [(new WithoutOverlapping($this->order->id))->releaseAfter(60)];
+        return [(new WithoutOverlapping($this->order->id))->expireAfter(180)];
     }
 }
