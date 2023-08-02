@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
+
+class SqlController extends Controller
+{
+    public function index(Request $request): view
+    {
+        // This process work for Prevent Sql injection
+        $users = DB::select('select * from users where active = ?', [1]);
+
+        $burgers = DB::scalar(
+            "select count(case when food = 'burger' then 1 end) as burgers from menu"
+        );
+
+        [$options, $notifications] = DB::selectResultSets(
+            "CALL get_user_options_and_notifications(?)", $request->user()->id
+        );
+
+        // Eta amar khuv Dorkar
+        $results = DB::select('select * from users where id = :id', ['id' => 1]);
+
+        DB::insert('insert into users (id, name) values (?, ?)', [1, 'Marc']);
+
+//        Return How many rows are affected
+        $affected = DB::update(
+            'update users set votes = 100 where name = ?',
+            ['Anita']
+        );
+
+        $deleted = DB::delete('delete from users');
+
+        DB::statement('drop table users');
+
+        DB::unprepared('update users set votes = 100 where name = "Dries"');
+
+        $users = DB::connection('sqlite')->select(/* ... */);
+
+//        Advanced transaction query
+        DB::transaction(function () {
+            DB::update('update users set votes = 1');
+
+            DB::delete('delete from posts');
+        });
+
+
+
+
+
+
+
+
+        return view('user.index', ['users' => $users]);
+    }
+}
